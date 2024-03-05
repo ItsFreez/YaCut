@@ -33,22 +33,22 @@ class URLMap(db.Model):
         return URLMap.query.filter_by(short=url).first()
 
     @staticmethod
-    def validate_and_create_obj(data):
-        error_message = ''
+    def validate_data(data):
         if not data:
-            error_message = 'Отсутствует тело запроса'
+            raise URLValidationError('Отсутствует тело запроса')
         elif 'url' not in data:
-            error_message = '"url" является обязательным полем!'
+            raise URLValidationError('"url" является обязательным полем!')
         elif not data.get('custom_id'):
             data['custom_id'] = URLMap.get_unique_short_id()
-        elif data.get('custom_id') and re.search(PATTERN_FOR_CHECK_URL, data['custom_id']) is None:
-            error_message = 'Указано недопустимое имя для короткой ссылки'
-        elif data.get('custom_id') and URLMap.get_obj_by_short(data['custom_id']) is not None:
-            error_message = 'Предложенный вариант короткой ссылки уже существует.'
+        elif re.search(PATTERN_FOR_CHECK_URL, data['custom_id']) is None:
+            raise URLValidationError('Указано недопустимое имя для короткой ссылки')
+        elif URLMap.get_obj_by_short(data['custom_id']) is not None:
+            raise URLValidationError('Предложенный вариант короткой ссылки уже существует.')
+        return data
 
-        if len(error_message) > 0:
-            raise URLValidationError(error_message)
-
+    @staticmethod
+    def create_obj(data):
+        data = URLMap.validate_data(data)
         url_obj = URLMap(original=data['url'], short=data['custom_id'])
         db.session.add(url_obj)
         db.session.commit()

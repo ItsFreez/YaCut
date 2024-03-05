@@ -17,7 +17,7 @@ def get_original_url(url):
 def generate_short_url():
     data = request.get_json()
     try:
-        url_obj = URLMap.validate_and_create_obj(data)
+        url_obj = URLMap.create_obj(data)
     except URLValidationError as error:
         raise InvalidAPIUsage(error.message)
     return jsonify(url_obj.to_dict()), 201
