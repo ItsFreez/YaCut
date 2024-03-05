@@ -6,6 +6,7 @@ from flask import url_for
 
 from yacut import db
 from yacut.constants import MAX_LEN_ORIGINAL, MAX_LEN_SHORT, STR_FOR_GEN_URL, PATTERN_FOR_CHECK_URL
+from yacut.error_handlers import URLValidationError
 
 
 class URLMap(db.Model):
@@ -46,9 +47,9 @@ class URLMap(db.Model):
             error_message = 'Предложенный вариант короткой ссылки уже существует.'
 
         if len(error_message) > 0:
-            return None, error_message
+            raise URLValidationError(error_message)
 
         url_obj = URLMap(original=data['url'], short=data['custom_id'])
         db.session.add(url_obj)
         db.session.commit()
-        return url_obj, ''
+        return url_obj

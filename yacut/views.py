@@ -1,6 +1,7 @@
 from flask import flash, redirect, render_template, url_for
 
 from yacut import app
+from yacut.error_handlers import URLValidationError
 from yacut.forms import URLForm
 from yacut.models import URLMap
 
@@ -10,9 +11,10 @@ def page_for_generate_url():
     form = URLForm()
     if form.validate_on_submit():
         data = dict(url=form.original_link.data, custom_id=form.custom_id.data)
-        url_obj, error_message = URLMap.validate_and_create_obj(data)
-        if len(error_message) > 0:
-            flash(error_message, 'error')
+        try:
+            url_obj = URLMap.validate_and_create_obj(data)
+        except URLValidationError as error:
+            flash(error.message, 'error')
             return render_template('index.html', form=form)
         flash(url_for('redirect_short_url', url=url_obj.short, _external=True), 'url')
     return render_template('index.html', form=form)

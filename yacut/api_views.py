@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
 from yacut import app
-from yacut.error_handlers import InvalidAPIUsage
+from yacut.error_handlers import InvalidAPIUsage, URLValidationError
 from yacut.models import URLMap
 
 
@@ -16,7 +16,8 @@ def get_original_url(url):
 @app.route('/api/id/', methods=('POST',))
 def generate_short_url():
     data = request.get_json()
-    url_obj, error_message = URLMap.validate_and_create_obj(data)
-    if len(error_message) > 0:
-        raise InvalidAPIUsage(error_message)
+    try:
+        url_obj = URLMap.validate_and_create_obj(data)
+    except URLValidationError as error:
+        raise InvalidAPIUsage(error.message)
     return jsonify(url_obj.to_dict()), 201
