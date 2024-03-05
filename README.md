@@ -56,6 +56,12 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+Применить миграции для создания базы данных
+
+```
+flask db upgrade
+```
+
 Запуск сервера (перед этим не забудьте выставить нужные настройки в файле .env)
 ```
 flask run
