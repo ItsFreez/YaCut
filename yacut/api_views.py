@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from flask import jsonify, request
 
 from yacut import app
@@ -9,8 +11,8 @@ from yacut.models import URLMap
 def get_original_url(url):
     url_obj = URLMap.get_obj_by_short(url)
     if url_obj is None:
-        raise InvalidAPIUsage('Указанный id не найден', 404)
-    return jsonify({'url': url_obj.original}), 200
+        raise InvalidAPIUsage('Указанный id не найден', HTTPStatus.NOT_FOUND)
+    return jsonify({'url': url_obj.original}), HTTPStatus.OK
 
 
 @app.route('/api/id/', methods=('POST',))
@@ -20,4 +22,4 @@ def generate_short_url():
         url_obj = URLMap.create_obj(data)
     except URLValidationError as error:
         raise InvalidAPIUsage(error.message)
-    return jsonify(url_obj.to_dict()), 201
+    return jsonify(url_obj.to_dict()), HTTPStatus.CREATED
