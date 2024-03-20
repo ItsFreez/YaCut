@@ -1,7 +1,7 @@
 # YaCut
 
 ## Описание
-Yacut - cервис укорачивания ссылок, который заменяет длинную ссылку на короткую (до 16 символов).
+**YaCut** - cервис укорачивания ссылок, который заменяет длинную ссылку на короткую (до 16 символов).
 Вариант сокращения может быть задан как самим пользователем, так и сгенерирован автоматически сервисом.
 Все сокращения уникальны. Реализован Web-интерфейс для пользователей и REST API.
 
@@ -15,55 +15,61 @@ Yacut - cервис укорачивания ссылок, который зам
 /api/id/<short_id>/ - GET-запрос для получения исходной ссылки из короткой
 
 
-## Применяемые технологии
+## Стек технологий
 
-[![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=ffffff&color=043A6B)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/-Flask-464646?style=flat&logo=Flask&logoColor=ffffff&color=043A6B)](https://www.djangoproject.com/)
-[![SQLAlchemy](https://img.shields.io/badge/-SQLAlchemy-464646?style=flat&logo=SQLAlchemy&logoColor=ffffff&color=043A6B)](https://www.postgresql.org/)
+![](https://img.shields.io/badge/Python-3.9-black?style=flat&logo=python) 
+![](https://img.shields.io/badge/Flask-2.0.2-black?style=flat&logo=flask)
+![](https://img.shields.io/badge/SQLAlchemy-1.4.29-black?style=flat&logo=sqlalchemy)
 
-### Порядок действий для запуска проекта
+## Порядок действий для запуска проекта
 
-Клонировать репозиторий и перейти в папку c проектом:
+***1. Клонировать репозиторий и перейти в папку c проектом***
 
-```
-git clone git@github.com:ItsFreez/yacut.git
-```
-
-```
-cd yacut
+```shell
+git clone git@github.com:ItsFreez/YaCut.git
 ```
 
-Cоздать и активировать виртуальное окружение:
+```shell
+cd YaCut
+```
+
+***2. Cоздать и активировать виртуальное окружение***
 
 *Для Windows*
-```
+```shell
 python -m venv env
 source venv/Scripts/Activate
 ```
 *Для MacOS/Linux*
-```
+```shell
 python3 -m venv env
 source env/bin/activate
 ```
 
-Обновить менеджер pip и установить зависимости из файла requirements.txt:
+***3. Обновить менеджер pip и установить зависимости из файла requirements.txt***
 
-```
+```shell
 python -m pip install --upgrade pip
 ```
 
-```
+```shell
 pip install -r requirements.txt
 ```
 
-Применить миграции для создания базы данных
+***4. Применить миграции для создания базы данных***
 
-```
+```shell
 flask db upgrade
 ```
 
-Запуск сервера (перед этим не забудьте выставить нужные настройки в файле .env)
+***5. Создать файл .env и заполнить по примеру из файл env.example***
+
+```shell
+touch .env
 ```
+
+***6. Запустить проект***
+```shell
 flask run
 ```
 
