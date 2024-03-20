@@ -62,7 +62,7 @@ pip install -r requirements.txt
 flask db upgrade
 ```
 
-***5. Создать файл .env и заполнить по примеру из файл env.example***
+***5. Создать файл .env и заполнить по примеру из файла env.example***
 
 ```shell
 touch .env
